@@ -1,4 +1,6 @@
 class Bitmovin::HLS::Audio < Bitmovin::Object
+  route "encoding/manifests/hls/:manifest_id/media/audio"
+
   param :manifest_id, exclude: true
   param :group_id
   param :name
@@ -11,10 +13,4 @@ class Bitmovin::HLS::Audio < Bitmovin::Object
   option :language, default: "en"
   option :default, default: false
   option :characteristics, default: []
-
-  def initialize(attributes = {})
-    super(attributes)
-
-    instance_route "encoding/manifests/hls/:manifest_id/media/audio"
-  end
 end

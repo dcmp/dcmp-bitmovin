@@ -111,5 +111,55 @@ namespace :thing do
       variant_stream.save!
       puts "Variant Stream: #{variant_stream.id}"
     end
+
+    # ---
+
+    dash_manifest = encoding.build_dash_manifest(output_id: output_id, output_path: "maia-bitmovin-test/project")
+    dash_manifest.save!
+    puts "Dash Manifest: #{dash_manifest.id}"
+
+    period = dash_manifest.build_period
+    period.save!
+
+    audio_adaptation_set = period.build_audio_adaptation_set
+    audio_adaptation_set.save!
+
+    audio_representation = audio_adaptation_set.build_fmp4_representation(
+      encoding_id: encoding.id,
+      muxing_id: main_audio_muxing.id,
+      type: "TEMPLATE",
+      segment_path: "audio/en_main"
+    )
+    audio_representation.save!
+
+    described_audio_adaptation_set = period.build_audio_adaptation_set(
+      roles: [Bitmovin::Dash::ROLE_ALTERNATE],
+      accessibilities: [Bitmovin::Dash::ACCESSIBILITY_DESCRIPTIVE]
+    )
+    described_audio_adaptation_set.save!
+
+    described_audio_representation = described_audio_adaptation_set.build_fmp4_representation(
+      encoding_id: encoding.id,
+      muxing_id: description_muxing.id,
+      type: "TEMPLATE",
+      segment_path: "audio/en_described"
+    )
+    described_audio_representation.save!
+
+
+    ladder.each do |config|
+      video_adaptation_set = period.build_video_adaptation_set
+      video_adaptation_set.save!
+      puts "Video Adaptation Set: #{video_adaptation_set.id}"
+
+      representation = video_adaptation_set.build_fmp4_representation(
+        encoding_id: encoding.id,
+        muxing_id: fmp4_muxings[config[:name]].id,
+        type: "TEMPLATE",
+        segment_path: "fmp4/#{config[:name]}"
+      )
+      representation.save!
+      puts "Representation: #{representation.id}"
+    end
   end
 end

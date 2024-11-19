@@ -2,6 +2,7 @@ class Bitmovin::Encoding < Bitmovin::Object
   route "encoding/encodings"
 
   param :name
+
   option :description
 
   def build_stream(input_id:, input_path:, codec_config_id:)
@@ -13,7 +14,10 @@ class Bitmovin::Encoding < Bitmovin::Object
   end
 
   def build_hls_manifest(output_id:, output_path:)
-    # TODO: Should this be Bitmovin::Manifest::HLS (or M3U8)??
     Bitmovin::HLS::Manifest.new(encoding_id: @id, output_id: output_id, output_path: output_path)
+  end
+
+  def build_dash_manifest(output_id:, output_path:)
+    Bitmovin::Dash::Manifest.new(output_id: output_id, output_path: output_path)
   end
 end
