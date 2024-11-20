@@ -6,11 +6,18 @@ namespace :thing do
     output_id = "968b5efc-1865-470f-8a7e-68f11cb93b68"
 
     ladder = [
-      { name: "something", id: "701e7dab-c6eb-439a-9f18-2fa8c0ef2ab5" },
-      { name: "something_two", id: "701e7dab-c6eb-439a-9f18-2fa8c0ef2ab5" }
+      { name: "360px_320000", id: "af1a6a99-10db-41b3-b2e3-8d96d3edd704" },
+      { name: "576px_512000", id: "70128f28-d054-4538-b63f-f3cb79312e96" },
+      { name: "720px_880000", id: "dfe762d7-acc9-4ea1-bff2-3a58a34f33d4" },
+      { name: "1080px_1600000", id: "57a856de-d411-497e-93bf-d425622942a5" },
+
     ]
 
-    audio_config_id = "b5b8710d-5c2b-4aa5-8592-2124b2a8cafb"
+    # 96k
+    audio_config_id = "dbae7a23-c93f-4078-b648-b493ffb0c730"
+
+    # 128k
+    audio_config_id = "67e8c4b2-ec7f-4074-9dbf-8c73b9df63e8"
 
     project = {
       audio: [
