@@ -17,6 +17,7 @@ require "bitmovin/dash/audio_adaptation_set"
 require "bitmovin/dash/period"
 require "bitmovin/dash/manifest"
 require "bitmovin/dash/representation"
+require "bitmovin/dash/representation/fmp4"
 require "bitmovin/dash/video_adaptation_set"
 
 require_relative "bitmovin/version"
