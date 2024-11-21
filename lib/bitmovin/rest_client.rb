@@ -9,6 +9,11 @@ module Bitmovin
       response = self.request(path, method: :post, data: data)
     end
 
+    def get(path)
+      response = Faraday.get(path)
+      JSON.parse(response.body)
+    end
+
   private
 
     def request(path, method:, data:)

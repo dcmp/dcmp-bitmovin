@@ -13,6 +13,27 @@ class Bitmovin::Dash::Manifest < Bitmovin::Object
     Bitmovin::Dash::Period.new(manifest_id: @id)
   end
 
+  def start!
+    payload = {
+      "trimming": {
+        "ignoreDurationIfInputTooShort": false
+      },
+      "tweaks": {
+        "audioVideoSyncMode": "RESYNC_AT_START_AND_END"
+      },
+      "encodingMode": "STANDARD",
+      "manifestGenerator": "V2"
+    }
+
+    response = Bitmovin.client.post("encoding/manifests/dash/#{@id}/start", data: payload)
+
+    if response["status"] == "ERROR"
+      raise Bitmovin::Error.new(response["data"]["message"])
+    end
+
+    id = response["data"]["result"]["id"]
+  end
+
 protected
 
   def build_payload

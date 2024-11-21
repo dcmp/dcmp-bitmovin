@@ -15,6 +15,27 @@ class Bitmovin::HLS::Manifest < Bitmovin::Object
     Bitmovin::HLS::Audio.new(manifest_id: @id, group_id: group_id, language: language, name: name, default: default, segment_path: segment_path, encoding_id: @encoding_id, stream_id: stream_id, muxing_id: muxing_id, uri: uri, characteristics: characteristics)
   end
 
+  def start!
+    payload = {
+      "trimming": {
+        "ignoreDurationIfInputTooShort": false
+      },
+      "tweaks": {
+        "audioVideoSyncMode": "RESYNC_AT_START_AND_END"
+      },
+      "encodingMode": "STANDARD",
+      "manifestGenerator": "V2"
+    }
+
+    response = Bitmovin.client.post("encoding/manifests/hls/#{@id}/start", data: payload)
+
+    if response["status"] == "ERROR"
+      raise Bitmovin::Error.new(response["data"]["message"])
+    end
+
+    id = response["data"]["result"]["id"]
+  end
+
 protected
 
   def build_payload

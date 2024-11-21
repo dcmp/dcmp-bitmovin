@@ -66,8 +66,6 @@
         path = path.gsub(":#{var}", self.send(var))
       end
 
-      puts "WTF: #{self.to_json}"
-
       puts "GONNA SEND TO: vvvv-----> #{path}"
       puts "Payload: #{payload.to_json}"
 
