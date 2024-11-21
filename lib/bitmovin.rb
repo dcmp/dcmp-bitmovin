@@ -1,20 +1,29 @@
-class RestClient
-  def initialize(base_url, headers: {})
-    @base_url = base_url
-    @headers = headers
-  end
+# frozen_string_literal: true
 
-  def post(path, data: nil)
-    response = self.request(path, method: :post, data: data)
-  end
+require "bundler/setup"
 
-private
+require "bitmovin/rest_client"
+require "bitmovin/object"
+require "bitmovin/encoding"
+require "bitmovin/stream"
+require "bitmovin/muxing"
+require "bitmovin/muxing/fmp4"
+require "bitmovin/hls"
+require "bitmovin/hls/audio"
+require "bitmovin/hls/manifest"
+require "bitmovin/hls/variant_stream"
+require "bitmovin/dash"
+require "bitmovin/dash/audio_adaptation_set"
+require "bitmovin/dash/period"
+require "bitmovin/dash/manifest"
+require "bitmovin/dash/representation"
+require "bitmovin/dash/video_adaptation_set"
 
-  def request(path, method:, data:)
-    url = "#{@base_url}/#{path}"
-    response = Faraday.send(method, url, data.to_json, @headers)
-    JSON.parse(response.body)
-  end
+require_relative "bitmovin/version"
+
+module Bitmovin
+  class Error < StandardError; end
+  # Your code goes here...
 end
 
 module Bitmovin
