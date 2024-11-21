@@ -10,7 +10,8 @@ module Bitmovin
     end
 
     def get(path)
-      response = Faraday.get(path)
+      url = "#{@base_url}/#{path}"
+      response = Faraday.get(url)
       JSON.parse(response.body)
     end
 
