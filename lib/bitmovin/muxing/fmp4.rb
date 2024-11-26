@@ -6,6 +6,10 @@ class Bitmovin::Muxing::FMP4 < Bitmovin::Object
   param :output_path
 
   option :segment_length, default: 4
+  option :segment_naming
+  option :segment_naming_template
+  option :init_segment_name
+  option :init_segment_name_template
   option :streams, default: []
 
 protected
