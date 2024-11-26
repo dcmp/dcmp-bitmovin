@@ -78,7 +78,7 @@
       self
     end
 
-  protected
+
 
     def build_payload
       payload = {}
@@ -95,7 +95,7 @@
 
       payload
     end
-
+  protected
     def validate_required_params!(attributes)
       missing_params = self.class.send(:required_params) - attributes.keys
 

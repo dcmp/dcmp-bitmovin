@@ -8,6 +8,9 @@ class Bitmovin::HLS::VariantStream < Bitmovin::Object
   param :uri
 
   option :closed_captioning, default: 'NONE'
+  option :audio_groups, default: []
+  option :subtitles
+  option :video
 
   def initialize(attributes = {})
     super(attributes)
