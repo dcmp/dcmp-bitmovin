@@ -6,11 +6,15 @@ class Bitmovin::Dash::AudioAdaptationSet < Bitmovin::Object
 
   option :roles, default: []
   option :accessibilities, default: []
+  option :labels, default: []
+  option :lang
 
   def build_payload
     {
       roles: self.roles,
-      accessibilities: self.accessibilities
+      accessibilities: self.accessibilities,
+      labels: self.labels,
+      lang: self.lang
     }
   end
 

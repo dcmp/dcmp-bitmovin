@@ -5,21 +5,19 @@ module Bitmovin
       @headers = headers
     end
 
-    def post(path, data: nil)
-      response = self.request(path, method: :post, data: data)
+    def post(path, data: [])
+      response = self.request(path, method: :post, data: data.to_json)
     end
 
-    def get(path)
-      url = "#{@base_url}/#{path}"
-      response = Faraday.get(url)
-      JSON.parse(response.body)
+    def get(path, data: [])
+      response = self.request(path, method: :get, data: data)
     end
 
   private
 
     def request(path, method:, data:)
       url = "#{@base_url}/#{path}"
-      response = Faraday.send(method, url, data.to_json, @headers)
+      response = Faraday.send(method, url, data, @headers)
       JSON.parse(response.body)
     end
   end

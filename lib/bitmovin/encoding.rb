@@ -4,16 +4,27 @@ class Bitmovin::Encoding < Bitmovin::Object
   param :name
 
   option :description
+  option :cloud_region, default: "AUTO"
+  option :type, default: "VOD"
+
+  attr_accessor :status, :progress
 
   class << self
     def find(id)
+      puts "Gonna get: encoding/encondings/#{id}"
       response = Bitmovin.client.get("encoding/encodings/#{id}")
+      puts "Response: #{response.to_json}"
 
       if response["status"] == "ERROR"
         raise Bitmovin::Error.new(response["data"]["message"])
       end
 
-      return response["data"]["result"]
+      result = response["data"]["result"]
+
+      # Convert keys into snake-case symbols
+      result = Hash[result.map { |k, v| [k.to_s.underscore.to_sym, v] }]
+
+      return new(result)
     end
   end
 

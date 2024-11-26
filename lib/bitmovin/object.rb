@@ -1,4 +1,6 @@
   class Bitmovin::Object
+    attr_accessor :id, :name, :description, :created_at, :modified_at
+
     class << self
       # Meta programming
       def param(name, opts = {})
@@ -59,7 +61,7 @@
     end
 
     def save!
-      payload = build_payload
+      payload = build_payload.compact
       path = route_path
 
       path.scan(/:([a-z_]+)/).flatten.each do |var|
@@ -94,11 +96,19 @@
       payload
     end
 
+    def validate_required_params!(attributes)
+      missing_params = self.class.send(:required_params) - attributes.keys
+
+      if missing_params.any?
+        raise ArgumentError, "Missing required params: #{missing_params.join(", ")}"
+      end
+    end
+
   private
 
     def validate_attributes!(attributes)
       validate_required_params!(attributes)
-      validate_no_extra_params!(attributes)
+      # validate_no_extra_params!(attributes)
     end
 
     def validate_no_extra_params!(attributes)
@@ -109,21 +119,11 @@
       end
     end
 
-    def validate_required_params!(attributes)
-      missing_params = self.class.send(:required_params) - attributes.keys
-
-      if missing_params.any?
-        raise ArgumentError, "Missing required params: #{missing_params.join(", ")}"
-      end
-    end
-
     def set_attributes(attributes)
       attributes.each do |key, value|
-        if self.class.send(:required_params).include?(key) || self.class.send(:optional_params).key?(key)
+#        if self.class.send(:required_params).include?(key) || self.class.send(:optional_params).key?(key)
           instance_variable_set("@#{key}", value)
-        else
-          raise ArgumentError, "Unknown param: #{key}"
-        end
+#        end
       end
     end
   end
