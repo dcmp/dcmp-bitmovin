@@ -8,7 +8,7 @@ class Bitmovin::HLS::VariantStream < Bitmovin::Object
   param :uri
 
   option :closed_captioning, default: 'NONE'
-  option :audio_groups, default: []
+  option :audio
   option :subtitles
   option :video
 
